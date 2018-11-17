@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CardList from "./CardList";
 import SearchBox from "./SearchBox";
 import { robots } from "./robots";
+import "./App.css";
 
 // functions that need to be aware of state (smart components) must be a class that extends component, with a constructor, with super(), and the initial state.
 class App extends Component {
@@ -26,7 +27,7 @@ class App extends Component {
     });
     return (
       <div className="tc">
-        <h1>RoboFriends</h1>
+        <h1 className="f1">RoboFriends</h1>
         {/* When onChange happens in SearchBox, it'll trigger the function  onSearchChange() changing the state*/}
         <SearchBox searchChange={this.onSearchChange} />
         {/* Has the array of robots for a given state */}
