@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import CardList from "./CardList";
-import SearchBox from "./SearchBox";
-import { robots } from "./robots";
+import CardList from "../components/CardList";
+import SearchBox from "../components/SearchBox";
+import Scroll from "../components/Scroll";
+import { robots } from "../robots";
 import "./App.css";
 
 // functions that need to be aware of state (smart components) must be a class that extends component, with a constructor, with super(), and the initial state.
@@ -24,25 +25,24 @@ class App extends Component {
     this.setState({ searchfield: event.target.value });
   };
   render() {
+    const { robots, searchfield } = this.state;
     //checks that if in the array of robots for a given state includes the string from the searchbox then return them.
-    const filteredRobots = this.state.robots.filter(robot => {
-      return robot.name
-        .toLowerCase()
-        .includes(this.state.searchfield.toLowerCase());
+    const filteredRobots = robots.filter(robot => {
+      return robot.name.toLowerCase().includes(searchfield.toLowerCase());
     });
-    if (this.state.robots.length === 0) {
-      return <h1>Loading...</h1>;
-    } else {
-      return (
-        <div className="tc">
-          <h1 className="f1">RoboFriends</h1>
-          {/* When onChange happens in SearchBox, it'll trigger the function  onSearchChange() changing the state*/}
-          <SearchBox searchChange={this.onSearchChange} />
+    return !robots.length ? (
+      <h1>Loading...</h1>
+    ) : (
+      <div className="tc">
+        <h1 className="f1">RoboFriends</h1>
+        {/* When onChange happens in SearchBox, it'll trigger the function  onSearchChange() changing the state*/}
+        <SearchBox searchChange={this.onSearchChange} />
+        <Scroll>
           {/* Has the array of robots for a given state */}
           <CardList robots={filteredRobots} />
-        </div>
-      );
-    }
+        </Scroll>
+      </div>
+    );
   }
 }
 export default App;
