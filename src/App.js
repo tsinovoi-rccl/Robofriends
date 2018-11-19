@@ -9,9 +9,14 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      robots: robots,
+      robots: [],
       searchfield: ""
     };
+  }
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then(users => this.setState({ robots: users }));
   }
   // function that changes the state according to an event triggered by DOM manipulation. must use this function syntax.
   onSearchChange = event => {
@@ -25,15 +30,19 @@ class App extends Component {
         .toLowerCase()
         .includes(this.state.searchfield.toLowerCase());
     });
-    return (
-      <div className="tc">
-        <h1 className="f1">RoboFriends</h1>
-        {/* When onChange happens in SearchBox, it'll trigger the function  onSearchChange() changing the state*/}
-        <SearchBox searchChange={this.onSearchChange} />
-        {/* Has the array of robots for a given state */}
-        <CardList robots={filteredRobots} />
-      </div>
-    );
+    if (this.state.robots.length === 0) {
+      return <h1>Loading...</h1>;
+    } else {
+      return (
+        <div className="tc">
+          <h1 className="f1">RoboFriends</h1>
+          {/* When onChange happens in SearchBox, it'll trigger the function  onSearchChange() changing the state*/}
+          <SearchBox searchChange={this.onSearchChange} />
+          {/* Has the array of robots for a given state */}
+          <CardList robots={filteredRobots} />
+        </div>
+      );
+    }
   }
 }
 export default App;
